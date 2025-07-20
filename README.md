@@ -67,14 +67,20 @@
    cp .env.example .env
    ```
 
-4. **Configura las variables de entorno (.env), especialmente la base de datos:**
+4. **Crea la base de datos:**
+   ```sql
+   CREATE DATABASE larateca;
+   ```
+   > Puedes usar phpMyAdmin, MySQL Workbench, o línea de comandos de MySQL.
+
+5. **Configura las variables de entorno (.env), especialmente la base de datos:**
    ```env
    DB_DATABASE=larateca
    DB_USERNAME=root
    DB_PASSWORD=
    ```
 
-5. **Genera la key de aplicación:**
+6. **Genera la key de aplicación:**
    ```bash
    php artisan key:generate
    ```
@@ -94,7 +100,7 @@
 ## 👤 Usuarios de prueba
 
 ### Administrador por defecto
-- **Name:** Admin
+- **Name:** admin
 - **Email:** admin@example.com
 - **Password:** password
 - **Campo `is_admin`:** 1
