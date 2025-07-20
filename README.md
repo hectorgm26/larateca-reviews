@@ -71,7 +71,7 @@
    ```env
    DB_DATABASE=larateca
    DB_USERNAME=root
-   DB_PASSWORD=secret
+   DB_PASSWORD=
    ```
 
 5. **Genera la key de aplicación:**
