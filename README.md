@@ -93,15 +93,20 @@
 
 ## 👤 Usuarios de prueba
 
-### Administrador
-- **Email:** admin@larateca.test
+### Administrador por defecto
+- **Email:** admin@example.com
 - **Password:** password
+- **Campo `is_admin`:** 1
 
-### Lector
-- **Email:** lector@larateca.test
-- **Password:** password
+> **Nota:** Los seeders y factories crean múltiples usuarios lectores, pero solo **un administrador** con el email anterior. Para crear administradores adicionales, puedes:
+> 1. Registrar un usuario normalmente desde la aplicación
+> 2. Cambiar el campo `is_admin` de `0` a `1` en tu gestor de base de datos (phpMyAdmin, MySQL Workbench, etc.)
 
-> Estos usuarios son creados automáticamente por los seeders durante la instalación.
+### Lectores
+Los factories generan automáticamente 19 usuarios lectores para realizar pruebas de reseñas y calificaciones. Cada usuario tiene:
+- Nombre y email únicos generados con Faker
+- Password por defecto: `password`
+- Campo `is_admin`: `false`
 
 ---
 
@@ -111,17 +116,12 @@
 # Limpia cachés
 php artisan optimize:clear
 
-# Reinicia la base de datos con datos de prueba
+# Reinicia la base de datos con datos de prueba, ejecutando los seeders
 php artisan migrate:fresh --seed
 
 # Compila Tailwind CSS y JS
 npm run build
 
-# Crear un nuevo seeder
-php artisan make:seeder NombreSeeder
-
-# Ejecutar un seeder específico
-php artisan db:seed --class=NombreSeeder
 ```
 
 ---
@@ -149,86 +149,61 @@ larateca/
 
 ---
 
-## 🎯 Seeders incluidos
+## 🎯 Seeder y Factories incluidos
 
-El proyecto incluye seeders para generar datos de prueba:
+El proyecto utiliza el `DatabaseSeeder` principal junto con factories para generar datos de prueba:
 
-### UserSeeder
-Crea usuarios de ejemplo con roles específicos:
-
-```php
-<?php
-
-namespace Database\Seeders;
-
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-
-class UserSeeder extends Seeder
-{
-    public function run(): void
-    {
-        // Administrador
-        User::create([
-            'name' => 'Administrador',
-            'email' => 'admin@larateca.test',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-        ]);
-
-        // Lector de prueba
-        User::create([
-            'name' => 'Lector Ejemplo',
-            'email' => 'lector@larateca.test',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'role' => 'reader',
-        ]);
-
-        // Lectores adicionales usando factory
-        User::factory(10)->create([
-            'role' => 'reader',
-        ]);
-    }
-}
-```
-
-### BookSeeder
-Genera libros de ejemplo con autores:
+### DatabaseSeeder
+Seeder principal que coordina la creación de todos los datos:
 
 ```php
 <?php
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Book;
 use App\Models\Author;
+use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Review;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
-class BookSeeder extends Seeder
+class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Crear autores
-        $authors = [
-            'Gabriel García Márquez',
-            'Isabel Allende',
-            'Mario Vargas Llosa',
-            'Julio Cortázar',
-            'Jorge Luis Borges',
-        ];
+        // 1 Administrador
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'is_admin' => true,
+        ]);
 
-        foreach ($authors as $authorName) {
-            Author::create(['name' => $authorName]);
-        }
+        // 19 Usuarios lectores
+        User::factory(19)->create();
 
-        // Crear libros usando factories
-        Book::factory(20)->create();
+        // 50 Libros con sus relaciones:
+        // - 3 autores por libro
+        // - 2 géneros por libro  
+        // - 10 reseñas por libro
+        Book::factory(50)
+            ->has(Author::factory(3))
+            ->has(Genre::factory(2))
+            ->has(Review::factory(10))
+            ->create();
     }
 }
 ```
+
+### Factories principales
+
+El proyecto incluye factories completas para todos los modelos:
+
+- **UserFactory**: Genera usuarios con datos realistas
+- **BookFactory**: Crea libros con títulos, descripciones, imágenes y metadatos
+- **AuthorFactory**: Genera autores con nombres y biografías
+- **GenreFactory**: Crea géneros literarios variados
+- **ReviewFactory**: Genera reseñas con calificaciones de 1-5 estrellas y estado de aprobación aleatorio
 
 ---
 
@@ -254,6 +229,7 @@ class BookSeeder extends Seeder
 - Para production, configura adecuadamente las variables de entorno.
 - Los middlewares personalizados están ubicados en `app/Http/Middleware/`.
 - Las validaciones de formularios se encuentran en los controladores correspondientes.
+- **Gestión de administradores:** Para convertir un usuario regular en administrador, cambia el campo `is_admin` de `0` a `1` en la base de datos usando tu gestor preferido (phpMyAdmin, MySQL Workbench, etc.).
 
 ---
 
@@ -263,4 +239,4 @@ Este proyecto está licenciado bajo la [MIT License](LICENSE).
 
 ---
 
-**Desarrollado con ❤️ por [Héctor Andrés González Mora](https://github.com/tu-usuario)**
+**Desarrollado con ❤️ por [Héctor Andrés González Mora]**
