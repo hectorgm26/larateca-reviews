@@ -94,6 +94,7 @@
 ## 👤 Usuarios de prueba
 
 ### Administrador por defecto
+- **Name:** Admin
 - **Email:** admin@example.com
 - **Password:** password
 - **Campo `is_admin`:** 1
