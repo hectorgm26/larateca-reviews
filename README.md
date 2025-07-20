@@ -246,4 +246,4 @@ Este proyecto está licenciado bajo la [MIT License](LICENSE).
 
 ---
 
-**Desarrollado con ❤️ por [Héctor Andrés González Mora]**
+**Desarrollado con ❤️ por Héctor Andrés González Mora**
