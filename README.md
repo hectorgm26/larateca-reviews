@@ -59,7 +59,8 @@
 2. **Instala dependencias PHP y JS:**
    ```bash
    composer install
-   npm install && npm run build
+   npm install
+   npm run build
    ```
 
 3. **Crea el archivo .env:**
