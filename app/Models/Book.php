@@ -46,4 +46,17 @@ class Book extends Model
         // Un libro puede tener muchos generos y un genero puede tener muchos libros
         return $this->belongsToMany(Genre::class);
     }
-}
+
+    // Luego se debe crear una migration que conecte las dos tablas, ejemplo: create_author_book_table Y ASI CREAR LA TABLA INTERMEDIA 
+    /*
+    use App\Models\Author;
+    use App\Models\Book;
+    
+    Schema::create('author_book', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(\App\Models\Author::class);
+            $table->foreignIdFor(\App\Models\Book::class);
+            $table->timestamps();
+        });
+    */
+    }
