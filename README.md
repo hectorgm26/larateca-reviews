@@ -215,12 +215,6 @@ El proyecto incluye factories completas para todos los modelos:
 
 ---
 
-## 📸 Capturas de pantalla
-
-*Próximamente se agregarán capturas del dashboard, listado de libros, sistema de reseñas, etc.*
-
----
-
 ## 🤝 Contribución
 
 1. Fork el proyecto
